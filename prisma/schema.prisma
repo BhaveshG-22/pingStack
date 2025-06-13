@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id             String          @id @default(uuid())
+  email          String          @unique
+  name           String?
+  EmailSchedules EmailSchedule[]
+  leads          Lead[]
+  createdAt      DateTime        @default(now())
+}
+
+model EmailSchedule {
+  id        String @id @default(uuid())
+  dayOfWeek Days
+  time      String
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+model Lead {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  company   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+}
+
+enum Days {
+  Mon @map("Monday")
+  Tue @map("Tuesday")
+  Wed @map("Wednesday")
+  Thu @map("Thursday")
+  Fri @map("Friday")
+  Sat @map("Saturday")
+  Sun @map("Sunday")
+}

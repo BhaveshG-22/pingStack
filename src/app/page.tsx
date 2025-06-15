@@ -2,39 +2,14 @@ import { ArrowRight, Brain, Calendar, Mail, Shield, Target, Users, Zap } from "l
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Navbar } from "@/components/navbar"
 
 export default function LandingPage() {
+
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Brain className="h-8 w-8 text-blue-600" />
-            <span className="text-2xl font-bold text-gray-900">PingStack</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">
-              Features
-            </a>
-            <a href="#how-it-works" className="text-gray-600 hover:text-gray-900 transition-colors">
-              How It Works
-            </a>
-            <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">
-              Pricing
-            </a>
-          </nav>
-          <div className="flex items-center gap-4">
-            <a href="/login" className="text-gray-600 hover:text-gray-900 transition-colors font-medium">
-              Sign In
-            </a>
-            <Button asChild>
-              <a href="/signup">Get Started</a>
-            </Button>
-          </div>
-        </div>
-      </header>
-
+      <Navbar />
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
@@ -112,11 +87,10 @@ export default function LandingPage() {
               <CardHeader>
                 <Target className="h-12 w-12 text-orange-600 mb-4" />
                 <CardTitle>Track Interactions</CardTitle>
+                <Badge variant="secondary" className="mb-2">
+                  Coming Soon
+                </Badge>
                 <CardDescription>
-                  <Badge variant="secondary" className="mb-2">
-                    Coming Soon
-                  </Badge>
-                  <br />
                   Open and reply tracking with smart follow-up suggestions based on engagement insights.
                 </CardDescription>
               </CardHeader>

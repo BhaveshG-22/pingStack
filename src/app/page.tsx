@@ -2,14 +2,12 @@ import { ArrowRight, Brain, Calendar, Mail, Shield, Target, Users, Zap } from "l
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Navbar } from "@/components/navbar"
 
-export default function LandingPage() {
-
+export default async function LandingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <Navbar />
+
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">

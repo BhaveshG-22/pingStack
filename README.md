@@ -49,7 +49,7 @@ pingstack/
 | Frontend  | Next.js (App Router), Tailwind CSS, shadcn/ui |
 | Backend   | Next.js API Routes |
 | Database  | PostgreSQL (via Supabase) |
-| Auth      | NextAuth.js or Clerk (WIP) |
+| Auth      | NextAuth.js |
 | Email     | SMTP via Nodemailer |
 | ORM       | Prisma |
 | AI (soon) | OpenAI / Cohere |

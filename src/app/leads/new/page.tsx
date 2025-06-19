@@ -56,8 +56,6 @@ export default function AddNewLead() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-            <Navbar showBackButton={true} />
-
             {/* Main Content */}
             <div className="container mx-auto px-4 py-12">
                 <div className="max-w-lg mx-auto">
@@ -121,8 +119,7 @@ export default function AddNewLead() {
                                 </div>
 
                                 {message && (
-                                    <div className={`p-4 rounded-md flex items-center space-x-2 ${
-                                            message.includes("Error")
+                                    <div className={`p-4 rounded-md flex items-center space-x-2 ${message.includes("Error")
                                             ? "bg-red-50 border border-red-200 text-red-700"
                                             : "bg-green-50 border border-green-200 text-green-700"
                                         }`}>

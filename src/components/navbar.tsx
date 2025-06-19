@@ -1,113 +1,19 @@
 "use client"
 
-import { Mails, ArrowLeft, CircleUser, User, X, Mail, Calendar, Settings } from "lucide-react"
+import { Mails, ArrowLeft, CircleUser, LayoutDashboard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
 import { useSession } from "next-auth/react"
-import { signOut } from "next-auth/react"
 
 import Link from "next/link"
 import { Session } from "next-auth"
-import { useState, useEffect } from "react"
+import { UserProfileSidebar } from "./user-profile-sidebar"
 
 interface NavbarProps {
   showBackButton?: boolean
   backButtonText?: string
   backButtonHref?: string
   initialSession: Session | null
-}
-
-// Modal Component
-function UserDetailsModal({
-  isOpen,
-  onClose,
-  session
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  session: Session | null;
-}) {
-  // Close modal on escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key) onClose()
-    }
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape)
-      document.body.style.overflow = 'hidden'
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape)
-      document.body.style.overflow = 'unset'
-    }
-  }, [isOpen, onClose])
-
-  if (!isOpen) return null
-
-  return (
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 z-40"
-        onClick={onClose}
-      />
-
-      {/* Modal */}
-      <div className="absolute top-full right-0 z-50 mt-2">
-        <div className="bg-white rounded-lg shadow-xl w-80 p-6 border">
-          {/* Close button */}
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <X className="h-5 w-5" />
-          </button>
-
-          {/* Header */}
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-              <User className="h-6 w-6 text-blue-600" />
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900">{session?.user?.name}</h2>
-              <p className="text-sm text-gray-500">{session?.user?.email}</p>
-            </div>
-          </div>
-
-          {/* User Info */}
-          <div className="mb-6">
-            <div className="border-t  border-gray-200 -mx-6"></div>
-            <div className="flex items-center gap-3 justify-start py-3  space-x-3  px-3 hover:bg-gray-50 cursor-pointer transition-colors rounded-t-lg">
-              <Settings className="h-5 w-5 text-gray-400" />
-              <Link href="/profile" onClick={onClose} className="font-medium text-gray-900">Manage Account</Link>
-            </div>
-            <div className="border-b  border-gray-200 -mx-6"></div>
-          </div>
-
-          {/* Actions */}
-          <div className="flex gap-3">
-            <Button
-              variant="outline"
-              className="flex-1"
-            >
-              Notifications
-            </Button>
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={() => {
-                signOut({ callbackUrl: '/' })
-              }}
-            >
-              Sign Out
-            </Button>
-          </div>
-        </div>
-      </div>
-    </>
-  )
 }
 
 export function Navbar({
@@ -118,12 +24,20 @@ export function Navbar({
 }: NavbarProps) {
 
   const pathname = usePathname()
-  const { data: session, status } = useSession()
-  const [showUserDetails, setShowUserDetails] = useState(false)
+  const { data: session } = useSession()
 
-  // Hide navbar on auth pages
-  if (pathname === "/login" || pathname === "/signup") {
-    return null
+  // Hide navbar on auth pages 
+  const authPages = [
+    "login",
+    "signup",
+    "dashboard"
+  ]
+
+  // Check if current pathname matches any auth page
+  for (const page of authPages) {
+    if (pathname === `/${page}`) {
+      return null
+    }
   }
 
   if (pathname === "/") {
@@ -174,22 +88,22 @@ export function Navbar({
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center gap-4 relative">
-                <button
-                  onClick={() => setShowUserDetails(true)}
-                  className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                  title="View profile"
-                  id="profile-button"
-                >
-                  <CircleUser className="h-6 w-6 text-gray-600" />
-                </button>
+              <div className="flex items-center gap-4">
 
-                {/* User Details Modal positioned below profile icon */}
-                <UserDetailsModal
-                  isOpen={showUserDetails}
-                  onClose={() => setShowUserDetails(false)}
-                  session={currentSession}
-                />
+                <UserProfileSidebar session={currentSession}>
+                  <button
+                    className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                    title="View profile"
+                  >
+                    <CircleUser className="h-6 w-6 text-gray-600" />
+                  </button>
+                </UserProfileSidebar>
+                <Button variant="outline" asChild>
+                  <Link href="/dashboard" className="flex items-center gap-2">
+                    <LayoutDashboard className="h-4 w-4" />
+                    <span>Dashboard</span>
+                  </Link>
+                </Button>
               </div>
             )
           ) : null}

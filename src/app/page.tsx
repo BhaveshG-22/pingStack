@@ -9,7 +9,7 @@ export default async function LandingPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
 
       {/* Hero Section */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-4 h-[90vh] flex items-center justify-center">
         <div className="container mx-auto text-center max-w-4xl">
           <Badge variant="secondary" className="mb-4">
             🚀 Your job search sidekick for cold outreach

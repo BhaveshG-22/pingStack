@@ -6,7 +6,12 @@ import { prisma } from "./prisma"
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "database" },
-  providers: [Google],
+  providers: [
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID!,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+    })
+  ],
 
   // pages: {
   //   signIn: '/auth/signin',
@@ -15,34 +20,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
   callbacks: {
     async session({ session, user }) {
-      // Fetch the full session data from database
-      const dbSession = await prisma.session.findUnique({
-        where: { sessionToken: session.sessionToken },
-        include: { user: true }
-      })
-      
-      if (dbSession) {
-        return {
-          ...session,
-          sessionToken: dbSession.sessionToken,
-          userId: dbSession.userId,
-          expires: dbSession.expires,
-          createdAt: dbSession.createdAt,
-          updatedAt: dbSession.updatedAt,
-          user: {
-            id: dbSession.user.id,
-            name: dbSession.user.name,
-            email: dbSession.user.email,
-            emailVerified: dbSession.user.emailVerified,
-            passwordHash: dbSession.user.passwordHash,
-            image: dbSession.user.image,
-            createdAt: dbSession.user.createdAt,
-            updatedAt: dbSession.user.updatedAt
-          }
-        }
+      if (user) {
+        session.user.id = user.id
       }
-      
       return session
     }
-  }
+  },
+  debug: process.env.NODE_ENV === "development"
 });

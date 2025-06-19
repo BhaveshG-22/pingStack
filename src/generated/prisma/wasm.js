@@ -138,13 +138,24 @@ exports.Prisma.EmailScheduleScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.GroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.LeadScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
   company: 'company',
+  status: 'status',
   userId: 'userId',
-  createdAt: 'createdAt'
+  groupId: 'groupId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -201,9 +212,17 @@ exports.Days = exports.$Enums.Days = {
   Sun: 'Sun'
 };
 
+exports.LeadStatus = exports.$Enums.LeadStatus = {
+  CONTACTED: 'CONTACTED',
+  RESPONDED: 'RESPONDED',
+  SCHEDULED: 'SCHEDULED',
+  CLOSED: 'CLOSED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   EmailSchedule: 'EmailSchedule',
+  Group: 'Group',
   Lead: 'Lead',
   Account: 'Account',
   Session: 'Session',

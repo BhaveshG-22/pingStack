@@ -24,6 +24,7 @@ model User {
 
   EmailSchedules EmailSchedule[]
   leads          Lead[]
+  groups         Group[]
 }
 
 model EmailSchedule {
@@ -34,14 +35,37 @@ model EmailSchedule {
   userId    String
 }
 
+model Group {
+  id        String   @id @default(cuid())
+  name      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  leads     Lead[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, userId]) // Ensure unique group names per user
+}
+
 model Lead {
   id        String   @id @default(cuid())
   name      String
   email     String
   company   String
+  status    LeadStatus @default(CONTACTED)
   user      User     @relation(fields: [userId], references: [id])
   userId    String
+  group     Group?   @relation(fields: [groupId], references: [id])
+  groupId   String?
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum LeadStatus {
+  CONTACTED
+  RESPONDED  
+  SCHEDULED
+  CLOSED
 }
 
 enum Days {

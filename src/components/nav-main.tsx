@@ -21,6 +21,7 @@ import {
 export function NavMain({
   items,
   onNavigate,
+  activeView,
 }: {
   items: {
     title: string
@@ -33,7 +34,17 @@ export function NavMain({
     }[]
   }[]
   onNavigate?: (view: string) => void
+  activeView?: string
 }) {
+  const getViewKey = (itemTitle: string, subItemTitle: string) => {
+    return `${itemTitle.toLowerCase()}-${subItemTitle.toLowerCase().replace(/\s+/g, '-')}`
+  }
+
+  const isSubItemActive = (itemTitle: string, subItemTitle: string) => {
+    const viewKey = getViewKey(itemTitle, subItemTitle)
+    return activeView === viewKey
+  }
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -58,6 +69,8 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton 
+                        isActive={isSubItemActive(item.title, subItem.title)}
+                        className={isSubItemActive(item.title, subItem.title) ? "bg-gray-700 dark:bg-gray-800 text-white font-medium" : ""}
                         onClick={() => {
                           if (onNavigate) {
                             // Handle Leads navigation

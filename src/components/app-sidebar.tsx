@@ -158,16 +158,17 @@ const data = {
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   onNavigate?: (view: string) => void
+  activeView?: string
 }
 
-export function AppSidebar({ onNavigate, ...props }: AppSidebarProps) {
+export function AppSidebar({ onNavigate, activeView, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} onNavigate={onNavigate} />
+        <NavMain items={data.navMain} onNavigate={onNavigate} activeView={activeView} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>

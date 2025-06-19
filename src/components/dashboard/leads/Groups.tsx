@@ -304,7 +304,7 @@ const Groups: React.FC<GroupsProps> = ({ onViewLead }) => {
             <AccordionContent className="px-6 pb-4">
               <div className="space-y-3">
                 {leads.map((lead) => (
-                  <div key={lead.id} className="flex items-center justify-between p-4 rounded-lg border bg-background hover:bg-accent/50 transition-colors">
+                  <div key={lead.id} className="flex items-center justify-between p-4 rounded-lg border bg-background hover:bg-accent/50 transition-colors cursor-pointer" onClick={() => onViewLead?.(lead.id)}>
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10">
                         <AvatarFallback className="text-sm font-medium">
@@ -338,7 +338,7 @@ const Groups: React.FC<GroupsProps> = ({ onViewLead }) => {
                       </Badge>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={(e) => e.stopPropagation()}>
                             <MoreVertical className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>

@@ -72,6 +72,9 @@ export function NavMain({
                                 case "Groups":
                                   onNavigate("leads-groups")
                                   break
+                                case "View":
+                                  onNavigate("leads-view")
+                                  break
                               }
                             }
                             

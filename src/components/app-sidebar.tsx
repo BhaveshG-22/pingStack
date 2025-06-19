@@ -72,6 +72,10 @@ const data = {
           title: "Groups",
           url: "#",
         },
+        {
+          title: "View",
+          url: "#",
+        },
       ],
     },
     {

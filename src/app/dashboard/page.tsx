@@ -18,6 +18,7 @@ import {
 import NewLead from "@/components/dashboard/leads/Add"
 import ManageLeads from "@/components/dashboard/leads/Manage"
 import Groups from "@/components/dashboard/leads/Groups"
+import ViewLeads from "@/components/dashboard/leads/View"
 import NewCampaign from "@/components/dashboard/campaigns/New"
 import CampaignOverview from "@/components/dashboard/campaigns/Overview"
 import ResponseTracking from "@/components/dashboard/analytics/ResponseTracking"
@@ -25,6 +26,12 @@ import { useState } from "react"
 
 export default function Page() {
   const [activeView, setActiveView] = useState("dashboard")
+  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null)
+
+  const handleViewLead = (leadId: string) => {
+    setSelectedLeadId(leadId)
+    setActiveView("leads-view")
+  }
 
   const getBreadcrumbData = () => {
     switch (activeView) {
@@ -34,6 +41,8 @@ export default function Page() {
         return { section: "Leads", page: "Manage Leads" }
       case "leads-groups":
         return { section: "Leads", page: "Lead Groups" }
+      case "leads-view":
+        return { section: "Leads", page: "Lead View" }
       case "campaigns-new":
         return { section: "Campaigns", page: "New Campaign" }
       case "campaigns-overview":
@@ -67,7 +76,9 @@ export default function Page() {
       case "leads-manage":
         return <ManageLeads />
       case "leads-groups":
-        return <Groups />
+        return <Groups onViewLead={handleViewLead} />
+      case "leads-view":
+        return <ViewLeads selectedLeadId={selectedLeadId} />
       
       // Campaigns
       case "campaigns-new":

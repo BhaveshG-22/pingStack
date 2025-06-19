@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Plus, Check, X } from "lucide-react"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -40,6 +41,16 @@ const formSchema = z.object({
 })
 
 const Add = () => {
+  const [groups, setGroups] = useState([
+    { value: "tech-leads", label: "Tech Leads" },
+    { value: "hr-managers", label: "HR Managers" },
+    { value: "recruiters", label: "Recruiters" },
+    { value: "startup-founders", label: "Startup Founders" },
+    { value: "engineering-managers", label: "Engineering Managers" },
+  ])
+  const [isAddingGroup, setIsAddingGroup] = useState(false)
+  const [newGroupName, setNewGroupName] = useState("")
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,6 +64,22 @@ const Add = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
     // Here you would typically send the data to your API
+  }
+
+  const handleAddGroup = () => {
+    if (newGroupName.trim()) {
+      const newGroupValue = newGroupName.toLowerCase().replace(/\s+/g, '-')
+      const newGroup = { value: newGroupValue, label: newGroupName.trim() }
+      setGroups([...groups, newGroup])
+      form.setValue("group", newGroupValue)
+      setNewGroupName("")
+      setIsAddingGroup(false)
+    }
+  }
+
+  const handleCancelAddGroup = () => {
+    setNewGroupName("")
+    setIsAddingGroup(false)
   }
 
   return (
@@ -135,11 +162,64 @@ const Add = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="tech-leads">Tech Leads</SelectItem>
-                        <SelectItem value="hr-managers">HR Managers</SelectItem>
-                        <SelectItem value="recruiters">Recruiters</SelectItem>
-                        <SelectItem value="startup-founders">Startup Founders</SelectItem>
-                        <SelectItem value="engineering-managers">Engineering Managers</SelectItem>
+                        {/* Add new group option */}
+                        <div className="p-2 border-b border-gray-600">
+                          {isAddingGroup ? (
+                            <div className="flex items-center gap-2">
+                              <Input
+                                placeholder="Enter group name"
+                                value={newGroupName}
+                                onChange={(e) => setNewGroupName(e.target.value)}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    e.preventDefault()
+                                    handleAddGroup()
+                                  }
+                                  if (e.key === 'Escape') {
+                                    e.preventDefault()
+                                    handleCancelAddGroup()
+                                  }
+                                }}
+                                className="flex-1 h-8"
+                                autoFocus
+                              />
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="ghost"
+                                onClick={handleAddGroup}
+                                className="h-8 w-8 p-0 text-green-500 hover:text-green-600"
+                              >
+                                <Check className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="ghost"
+                                onClick={handleCancelAddGroup}
+                                className="h-8 w-8 p-0 text-red-500 hover:text-red-600"
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => setIsAddingGroup(true)}
+                              className="flex items-center gap-2 w-full p-2 text-left hover:bg-gray-800 rounded-sm text-white"
+                            >
+                              <Plus className="h-4 w-4" />
+                              Add new group
+                            </button>
+                          )}
+                        </div>
+                        
+                        {/* Existing groups */}
+                        {groups.map((group) => (
+                          <SelectItem key={group.value} value={group.value}>
+                            {group.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormDescription>

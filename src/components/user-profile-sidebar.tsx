@@ -28,6 +28,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
 } from "@/components/ui/sidebar"
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
 
 const profileData = {
   nav: [
@@ -42,10 +43,23 @@ interface UserProfileSidebarProps {
   children: React.ReactNode
 }
 
+interface User {
+  name: string
+  email: string
+  image: string
+}
+
 export function UserProfileSidebar({ session, children }: UserProfileSidebarProps) {
   const [open, setOpen] = React.useState(false)
   const [selectedSection, setSelectedSection] = React.useState("profile")
   const [showSignoutConfirm, setShowSignoutConfirm] = React.useState(false)
+
+  const { name, email, image } = session?.user as User
+
+  const avatarFallback = name
+    .split(' ')
+    .map((word) => word.charAt(0))
+    .join('')
 
   const handleMenuClick = (item: any) => {
     if (item.action === "signout") {
@@ -112,12 +126,13 @@ export function UserProfileSidebar({ session, children }: UserProfileSidebarProp
         return (
           <div className="flex flex-1 flex-col gap-4 p-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <User className="h-6 w-6 text-blue-600" />
-              </div>
+              <Avatar className="h-8 w-8 rounded-lg">
+                <AvatarImage src={image} alt={name} />
+                <AvatarFallback className="rounded-lg">{avatarFallback}</AvatarFallback>
+              </Avatar>
               <div>
-                <h3 className="font-semibold text-gray-900">{session?.user?.name}</h3>
-                <p className="text-sm text-gray-500">{session?.user?.email}</p>
+                <h3 className="font-semibold text-gray-900">{name}</h3>
+                <p className="text-sm text-gray-500">{email}</p>
               </div>
             </div>
             <div className="flex-1 bg-gray-50 rounded-lg p-4">
@@ -125,11 +140,11 @@ export function UserProfileSidebar({ session, children }: UserProfileSidebarProp
               <div className="space-y-2">
                 <div>
                   <label className="text-sm text-gray-600">Name</label>
-                  <p className="text-sm font-medium">{session?.user?.name || "Not set"}</p>
+                  <p className="text-sm font-medium">{name || "Not set"}</p>
                 </div>
                 <div>
                   <label className="text-sm text-gray-600">Email</label>
-                  <p className="text-sm font-medium">{session?.user?.email}</p>
+                  <p className="text-sm font-medium">{email}</p>
                 </div>
                 <div>
                   <label className="text-sm text-gray-600">Account Type</label>
@@ -139,7 +154,7 @@ export function UserProfileSidebar({ session, children }: UserProfileSidebarProp
             </div>
           </div>
         )
-      
+
       case "notifications":
         return (
           <div className="flex flex-1 flex-col gap-4 p-4">
@@ -171,7 +186,7 @@ export function UserProfileSidebar({ session, children }: UserProfileSidebarProp
             </div>
           </div>
         )
-      
+
       default:
         return (
           <div className="flex flex-1 flex-col gap-4 p-4">
@@ -180,8 +195,8 @@ export function UserProfileSidebar({ session, children }: UserProfileSidebarProp
                 <User className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">{session?.user?.name}</h3>
-                <p className="text-sm text-gray-500">{session?.user?.email}</p>
+                <h3 className="font-semibold text-gray-900">{name}</h3>
+                <p className="text-sm text-gray-500">{email}</p>
               </div>
             </div>
             <div className="flex-1 bg-gray-50 rounded-lg p-4">
@@ -231,8 +246,8 @@ export function UserProfileSidebar({ session, children }: UserProfileSidebarProp
             <header className="flex h-16 shrink-0 items-center gap-2 px-4 border-b">
               <h2 className="text-lg font-semibold">
                 {showSignoutConfirm ? "Sign Out" :
-                 selectedSection === "profile" ? "Profile Settings" : 
-                 selectedSection === "notifications" ? "Notification Settings" : "Account"}
+                  selectedSection === "profile" ? "Profile Settings" :
+                    selectedSection === "notifications" ? "Notification Settings" : "Account"}
               </h2>
             </header>
             {renderContent()}

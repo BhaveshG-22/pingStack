@@ -23,6 +23,8 @@ import NewCampaign from "@/components/dashboard/campaigns/New"
 import CampaignOverview from "@/components/dashboard/campaigns/Overview"
 import ResponseTracking from "@/components/dashboard/analytics/ResponseTracking"
 import { useState } from "react"
+import CampaignTemplates from "@/components/dashboard/campaigns/Template"
+import Placeholder from "@/components/dashboard/Placeholder"
 
 export default function Page() {
   const [activeView, setActiveView] = useState("dashboard")
@@ -79,61 +81,51 @@ export default function Page() {
         return <Groups onViewLead={handleViewLead} />
       case "leads-view":
         return <ViewLeads selectedLeadId={selectedLeadId} />
-      
+
       // Campaigns
       case "campaigns-new":
         return <NewCampaign />
       case "campaigns-overview":
         return <CampaignOverview />
       case "campaigns-template":
-        return (
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <h1 className="text-2xl font-bold">Campaign Templates</h1>
-            <p>Campaign template management coming soon...</p>
-          </div>
-        )
+        return <CampaignTemplates />
       case "campaigns-quantum":
-        return (
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <h1 className="text-2xl font-bold">Quantum Campaigns</h1>
-            <p>Advanced quantum campaign features coming soon...</p>
-          </div>
-        )
-      
+        return <Placeholder Title={'Campaigns Quantum'} Description={'Dont know what tis is might chnage to something else later'} />
+
       // Analytics
       case "analytics-response-tracking":
         return <ResponseTracking />
       case "analytics-get-started":
         return (
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <h1 className="text-2xl font-bold">Get Started with Analytics</h1>
-            <p>Analytics getting started guide coming soon...</p>
-          </div>
+          <Placeholder
+            Title={'Analytics'}
+            Description={'View analytics with graphs and metrics to analyze your campaign\'s journey'}
+          />
         )
       case "analytics-tutorials":
         return (
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <h1 className="text-2xl font-bold">Analytics Tutorials</h1>
-            <p>Step-by-step analytics tutorials coming soon...</p>
-          </div>
+          <Placeholder
+            Title={'Analytics Tutorials'}
+            Description={'Step-by-step tutorials to help you master campaign analytics'}
+          />
         )
       case "analytics-changelog":
         return (
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <h1 className="text-2xl font-bold">Analytics Changelog</h1>
-            <p>Analytics feature updates and changelog coming soon...</p>
-          </div>
+          <Placeholder
+            Title={'Analytics Changelog'}
+            Description={'Track updates and improvements to your analytics dashboard'}
+          />
         )
 
       // Integration
       case "integration-email-accounts":
         return (
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <h1 className="text-2xl font-bold">Email Account Integration</h1>
-            <p>Email account setup and management coming soon...</p>
-          </div>
+          <Placeholder
+            Title={'Email Account Integration'}
+            Description={'Connect and manage your email accounts for seamless outreach'}
+          />
         )
-      
+
       default:
         return (
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">

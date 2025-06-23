@@ -118,7 +118,7 @@ const Add = () => {
                   <FormItem>
                     <FormLabel>Company</FormLabel>
                     <FormControl>
-                      <Input placeholder="Acme Corp" {...field} />
+                      <Input placeholder="Bhavesh's Workspace" {...field} />
                     </FormControl>
                     <FormDescription>
                       The company or organization they work for.

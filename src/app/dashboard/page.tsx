@@ -20,7 +20,7 @@ import ManageLeads from "@/components/dashboard/leads/Manage"
 import Groups from "@/components/dashboard/leads/Groups"
 import ViewLeads from "@/components/dashboard/leads/View"
 import NewCampaign from "@/components/dashboard/campaigns/New"
-import CampaignOverview from "@/components/dashboard/campaigns/Overview"
+import CampaignManager from "@/components/dashboard/campaigns/CampaignManager"
 import ResponseTracking from "@/components/dashboard/analytics/ResponseTracking"
 import { useState } from "react"
 import CampaignTemplates from "@/components/dashboard/campaigns/Template"
@@ -86,7 +86,7 @@ export default function Page() {
       case "campaigns-new":
         return <NewCampaign />
       case "campaigns-overview":
-        return <CampaignOverview />
+        return <CampaignManager />
       case "campaigns-template":
         return <CampaignTemplates />
       case "campaigns-quantum":

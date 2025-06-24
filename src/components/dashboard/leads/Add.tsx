@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Plus, Check, X } from "lucide-react"
+import { toast } from "sonner"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -64,6 +65,40 @@ const Add = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
     // Here you would typically send the data to your API
+    
+    // Simulate API call success
+    try {
+      // Show success toast with undo action
+      toast.success("Lead added successfully!", {
+        description: `${values.name} from ${values.company} has been added to your leads.`,
+        duration: 4000,
+        action: {
+          label: "Undo",
+          onClick: () => {
+            // Restore the form with the previous values
+            form.reset(values)
+            toast.info("Lead addition undone", {
+              description: "The form has been restored with the previous values.",
+              duration: 2000,
+            })
+          },
+        },
+      })
+      
+      // Reset form values
+      form.reset()
+      
+      // Reset any additional state if needed
+      setIsAddingGroup(false)
+      setNewGroupName("")
+      
+    } catch (error) {
+      // Show error toast if something goes wrong
+      toast.error("Failed to add lead", {
+        description: "Please try again or contact support if the problem persists.",
+        duration: 4000,
+      })
+    }
   }
 
   const handleAddGroup = () => {
@@ -74,6 +109,12 @@ const Add = () => {
       form.setValue("group", newGroupValue)
       setNewGroupName("")
       setIsAddingGroup(false)
+      
+      // Show success toast for group creation
+      toast.success("Group created!", {
+        description: `"${newGroupName.trim()}" group has been created and selected.`,
+        duration: 3000,
+      })
     }
   }
 

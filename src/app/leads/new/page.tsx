@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Navbar } from "@/components/navbar";
 
 interface FormData {
     name: string;
@@ -47,7 +46,7 @@ export default function AddNewLead() {
                 company: "",
                 email: ""
             });
-        } catch (error: unknown) {
+        } catch {
             setMessage("Error adding to email list. Please try again.");
         } finally {
             setIsSubmitting(false);

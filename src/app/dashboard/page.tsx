@@ -51,8 +51,6 @@ export default function Page() {
         return { section: "Campaigns", page: "Campaign Overview" }
       case "campaigns-template":
         return { section: "Campaigns", page: "Templates" }
-      case "campaigns-quantum":
-        return { section: "Campaigns", page: "Quantum" }
       case "analytics-response-tracking":
         return { section: "Analytics", page: "Response Tracking" }
       case "analytics-get-started":
@@ -89,8 +87,6 @@ export default function Page() {
         return <CampaignManager />
       case "campaigns-template":
         return <CampaignTemplates />
-      case "campaigns-quantum":
-        return <Placeholder Title={'Campaigns Quantum'} Description={'Dont know what tis is might chnage to something else later'} />
 
       // Analytics
       case "analytics-response-tracking":

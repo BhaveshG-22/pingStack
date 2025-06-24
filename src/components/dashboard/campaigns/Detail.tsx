@@ -35,9 +35,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { campaignStatusStyles, prospectStatusStyles } from "@/lib/status-styles"
 import { toast } from "sonner"
-
-// Define campaign status type
-type CampaignStatus = 'active' | 'paused' | 'completed' | 'draft'
+import { getTemplateById } from "@/lib/email-templates"
+import TemplateSelector from "./TemplateSelector"
+import type { CampaignStatus, CampaignDetailProps } from "../../../../types/campaigns"
+import type { EmailTemplate } from "../../../../types/templates"
+import type { Prospect } from "../../../../types/leads"
 
 // Mock detailed campaign data for job seeking
 const mockCampaignDetail = {
@@ -64,7 +66,8 @@ const mockCampaignDetail = {
   emailSubject: "Software Engineer interested in [Company Name]'s mission",
   variants: 2,
   totalSequenceSteps: 3,
-  currentStep: 2
+  currentStep: 2,
+  selectedTemplateId: "software-engineer-direct"
 }
 
 // Mock prospect data for job seekers
@@ -132,14 +135,14 @@ const mockProspects = [
 ]
 
 
-interface CampaignDetailProps {
-  campaignId?: string
-  onBack?: () => void
-}
 
 const CampaignDetail: React.FC<CampaignDetailProps> = ({ onBack }) => {
   const [activeTab, setActiveTab] = useState("overview")
   const [campaignStatus, setCampaignStatus] = useState<CampaignStatus>(mockCampaignDetail.status)
+  const [selectedTemplate, setSelectedTemplate] = useState<EmailTemplate | null>(
+    mockCampaignDetail.selectedTemplateId ? getTemplateById(mockCampaignDetail.selectedTemplateId) || null : null
+  )
+  const [showTemplateSelector, setShowTemplateSelector] = useState(false)
   
   const campaign = { ...mockCampaignDetail, status: campaignStatus }
   const prospects = mockProspects
@@ -189,6 +192,15 @@ const CampaignDetail: React.FC<CampaignDetailProps> = ({ onBack }) => {
     
     // Here you would typically make an API call to update the campaign status
     console.log(`Campaign status changed to: ${newStatus}`)
+  }
+
+  const handleTemplateSelection = (template: EmailTemplate) => {
+    setSelectedTemplate(template)
+    setShowTemplateSelector(false)
+    toast.success("Template updated!", {
+      description: `Campaign template changed to "${template.name}".`,
+      duration: 3000,
+    })
   }
 
   const StatusIcon = campaign.status === 'active' ? Play : 
@@ -553,60 +565,133 @@ const CampaignDetail: React.FC<CampaignDetailProps> = ({ onBack }) => {
         </TabsContent>
         
         <TabsContent value="content" className="space-y-6">
-          <Card>
-            <CardHeader className="pb-4">
-              <CardTitle className="flex items-center gap-2 text-xl">
-                <Mail className="h-6 w-6" />
-                Email Content
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-3">
-                <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Subject Line</label>
-                <div className="p-4 bg-muted/50 rounded-lg border">
-                  <div className="text-base font-medium">{campaign.emailSubject}</div>
-                </div>
+          {showTemplateSelector ? (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold">Select Email Template</h3>
+                <Button variant="outline" onClick={() => setShowTemplateSelector(false)}>
+                  Cancel
+                </Button>
               </div>
-              
-              <div className="space-y-4">
-                <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-                  Email Templates ({campaign.variants} variants)
-                </label>
-                <div className="space-y-4">
-                  <div className="p-5 border rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
-                    <div className="text-base font-semibold mb-3 text-green-800">Template A (Direct Approach)</div>
-                    <div className="text-sm text-gray-700 leading-relaxed">
-                      Hi {"{firstName}"}, I'm a Software Engineer with 3+ years of experience in React and Node.js. I'm really excited about {"{companyName}"}'s mission to revolutionize the tech industry. I'd love to explore opportunities to contribute to your engineering team...
-                    </div>
-                  </div>
-                  <div className="p-5 border rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 border-blue-200">
-                    <div className="text-base font-semibold mb-3 text-blue-800">Template B (Personal Connection)</div>
-                    <div className="text-sm text-gray-700 leading-relaxed">
-                      Hello {"{firstName}"}, I've been following {"{companyName}"}'s journey and I'm impressed by your recent Series A funding and product direction. As a passionate full-stack developer, I believe my experience building scalable web applications could add value to your team...
-                    </div>
-                  </div>
-                </div>
+              <TemplateSelector 
+                onSelectTemplate={handleTemplateSelection}
+                selectedTemplateId={selectedTemplate?.id}
+              />
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold">Campaign Content</h3>
+                <Button onClick={() => setShowTemplateSelector(true)}>
+                  <Edit className="h-4 w-4 mr-2" />
+                  Change Template
+                </Button>
               </div>
-              
-              <div className="space-y-4">
-                <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Follow-up Sequence</label>
-                <div className="space-y-4">
-                  <div className="p-5 border rounded-lg bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200">
-                    <div className="text-base font-semibold mb-3 text-orange-800">Follow-up 1 (After 5 days)</div>
-                    <div className="text-sm text-gray-700 leading-relaxed">
-                      Hi {"{firstName}"}, I wanted to follow up on my previous email about Software Engineer opportunities at {"{companyName}"}. I'd be happy to share my portfolio and discuss how I can contribute to your team's goals...
+
+              {selectedTemplate ? (
+                <Card>
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="flex items-center gap-2 text-xl">
+                        <Mail className="h-6 w-6" />
+                        {selectedTemplate.name}
+                      </CardTitle>
+                      <div className="flex gap-2">
+                        <Badge variant="outline" className="capitalize">
+                          {selectedTemplate.tone}
+                        </Badge>
+                        <Badge variant="secondary">
+                          {selectedTemplate.category}
+                        </Badge>
+                        {selectedTemplate.successRate && (
+                          <Badge variant="outline" className="text-green-600">
+                            <TrendingUp className="h-3 w-3 mr-1" />
+                            {selectedTemplate.successRate}% success
+                          </Badge>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-5 border rounded-lg bg-gradient-to-r from-purple-50 to-violet-50 border-purple-200">
-                    <div className="text-base font-semibold mb-3 text-purple-800">Follow-up 2 (After 10 days)</div>
-                    <div className="text-sm text-gray-700 leading-relaxed">
-                      Hi {"{firstName}"}, I understand you're probably very busy. I just wanted to share a quick project I built that might be relevant to {"{companyName}"}'s tech stack. Would love to get your thoughts when you have a moment...
+                    <p className="text-muted-foreground">{selectedTemplate.description}</p>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-3">
+                      <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Subject Line</label>
+                      <div className="p-4 bg-muted/50 rounded-lg border">
+                        <div className="text-base font-medium">{selectedTemplate.subjectLine}</div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                    
+                    <div className="space-y-4">
+                      <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                        Email Content
+                      </label>
+                      <div className="p-5 border rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+                        <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+                          {selectedTemplate.content}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {selectedTemplate.followUpSequence && selectedTemplate.followUpSequence.length > 0 && (
+                      <div className="space-y-4">
+                        <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                          Follow-up Sequence ({selectedTemplate.followUpSequence.length} emails)
+                        </label>
+                        <div className="space-y-4">
+                          {selectedTemplate.followUpSequence.map((followUp, index) => (
+                            <div key={index} className="p-5 border rounded-lg bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200">
+                              <div className="text-base font-semibold mb-3 text-orange-800">
+                                Follow-up {followUp.step} (After {followUp.delay} days)
+                              </div>
+                              <div className="text-sm text-muted-foreground mb-2">
+                                <strong>Subject:</strong> {followUp.subjectLine}
+                              </div>
+                              <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+                                {followUp.content}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="space-y-3">
+                      <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Template Tags</label>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedTemplate.tags.map((tag, index) => (
+                          <Badge key={index} variant="secondary" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="bg-muted/30 p-4 rounded-lg">
+                      <h4 className="font-medium text-sm mb-2">Template Variables</h4>
+                      <p className="text-xs text-muted-foreground">
+                        This template uses placeholders like {"{firstName}"}, {"{companyName}"}, {"{experience}"}, etc. 
+                        These will be automatically replaced with actual values when sending emails to prospects.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card>
+                  <CardContent className="flex flex-col items-center justify-center py-12">
+                    <Mail className="h-12 w-12 text-muted-foreground mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">No Template Selected</h3>
+                    <p className="text-muted-foreground text-center mb-4">
+                      Choose from our proven email templates to get started with your campaign.
+                    </p>
+                    <Button onClick={() => setShowTemplateSelector(true)}>
+                      <Edit className="h-4 w-4 mr-2" />
+                      Select Template
+                    </Button>
+                  </CardContent>
+                </Card>
+              )}
+            </>
+          )}
         </TabsContent>
       </Tabs>
     </div>

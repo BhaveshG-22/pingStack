@@ -108,10 +108,6 @@ export function AppSidebar({ onNavigate, activeView, ...props }: AppSidebarProps
             title: "Template",
             url: "#",
           },
-          {
-            title: "Quantum",
-            url: "#",
-          },
         ],
       },
       {

@@ -103,9 +103,6 @@ export function NavMain({
                                 case "Template":
                                   onNavigate("campaigns-template")
                                   break
-                                case "Quantum":
-                                  onNavigate("campaigns-quantum")
-                                  break
                               }
                             }
                             

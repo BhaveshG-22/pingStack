@@ -1,7 +1,8 @@
-import { ArrowRight, Brain, Calendar, Mail, Shield, Target, Users, Zap } from "lucide-react"
+import { ArrowRight, Calendar, Mail, Shield, Target, Users, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import Footer from "@/components/Footer"
 
 export default async function LandingPage() {
 
@@ -219,31 +220,7 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 px-4 bg-gray-900 text-white">
-        <div className="container mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center gap-2 mb-4 md:mb-0">
-              <Brain className="h-6 w-6" />
-              <span className="text-xl font-bold">PingStack</span>
-            </div>
-            <div className="flex gap-6 text-sm text-gray-400">
-              <a href="#" className="hover:text-white transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
-                Terms of Service
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
-                Contact
-              </a>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
-            © 2024 PingStack. All rights reserved. Built for ambitious professionals.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

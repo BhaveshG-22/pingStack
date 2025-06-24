@@ -48,6 +48,11 @@ export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
  * 
  */
 export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
+/**
+ * Model SMTPConfig
+ * 
+ */
+export type SMTPConfig = $Result.DefaultSelection<Prisma.$SMTPConfigPayload>
 
 /**
  * Enums
@@ -279,6 +284,16 @@ export class PrismaClient<
     * ```
     */
   get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.sMTPConfig`: Exposes CRUD operations for the **SMTPConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SMTPConfigs
+    * const sMTPConfigs = await prisma.sMTPConfig.findMany()
+    * ```
+    */
+  get sMTPConfig(): Prisma.SMTPConfigDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -337,8 +352,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.10.0
-   * Query Engine version: aee10d5a411e4360c6d3445ce4810ca65adbf3e8
+   * Prisma Client JS version: 6.10.1
+   * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
    */
   export type PrismaVersion = {
     client: string
@@ -725,7 +740,8 @@ export namespace Prisma {
     Lead: 'Lead',
     Account: 'Account',
     Session: 'Session',
-    VerificationToken: 'VerificationToken'
+    VerificationToken: 'VerificationToken',
+    SMTPConfig: 'SMTPConfig'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -744,7 +760,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "emailSchedule" | "group" | "lead" | "account" | "session" | "verificationToken"
+      modelProps: "user" | "emailSchedule" | "group" | "lead" | "account" | "session" | "verificationToken" | "sMTPConfig"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1266,6 +1282,80 @@ export namespace Prisma {
           }
         }
       }
+      SMTPConfig: {
+        payload: Prisma.$SMTPConfigPayload<ExtArgs>
+        fields: Prisma.SMTPConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SMTPConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SMTPConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SMTPConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SMTPConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.SMTPConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SMTPConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SMTPConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SMTPConfigPayload>
+          }
+          findMany: {
+            args: Prisma.SMTPConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SMTPConfigPayload>[]
+          }
+          create: {
+            args: Prisma.SMTPConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SMTPConfigPayload>
+          }
+          createMany: {
+            args: Prisma.SMTPConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SMTPConfigCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SMTPConfigPayload>[]
+          }
+          delete: {
+            args: Prisma.SMTPConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SMTPConfigPayload>
+          }
+          update: {
+            args: Prisma.SMTPConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SMTPConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.SMTPConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SMTPConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SMTPConfigUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SMTPConfigPayload>[]
+          }
+          upsert: {
+            args: Prisma.SMTPConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SMTPConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.SMTPConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSMTPConfig>
+          }
+          groupBy: {
+            args: Prisma.SMTPConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SMTPConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SMTPConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<SMTPConfigCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1357,6 +1447,7 @@ export namespace Prisma {
     account?: AccountOmit
     session?: SessionOmit
     verificationToken?: VerificationTokenOmit
+    sMTPConfig?: SMTPConfigOmit
   }
 
   /* Types for Logging */
@@ -1456,6 +1547,7 @@ export namespace Prisma {
     EmailSchedules: number
     leads: number
     groups: number
+    smtpConfigs: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1464,6 +1556,7 @@ export namespace Prisma {
     EmailSchedules?: boolean | UserCountOutputTypeCountEmailSchedulesArgs
     leads?: boolean | UserCountOutputTypeCountLeadsArgs
     groups?: boolean | UserCountOutputTypeCountGroupsArgs
+    smtpConfigs?: boolean | UserCountOutputTypeCountSmtpConfigsArgs
   }
 
   // Custom InputTypes
@@ -1510,6 +1603,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GroupWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSmtpConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SMTPConfigWhereInput
   }
 
 
@@ -1741,6 +1841,7 @@ export namespace Prisma {
     EmailSchedules?: boolean | User$EmailSchedulesArgs<ExtArgs>
     leads?: boolean | User$leadsArgs<ExtArgs>
     groups?: boolean | User$groupsArgs<ExtArgs>
+    smtpConfigs?: boolean | User$smtpConfigsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1784,6 +1885,7 @@ export namespace Prisma {
     EmailSchedules?: boolean | User$EmailSchedulesArgs<ExtArgs>
     leads?: boolean | User$leadsArgs<ExtArgs>
     groups?: boolean | User$groupsArgs<ExtArgs>
+    smtpConfigs?: boolean | User$smtpConfigsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1797,6 +1899,7 @@ export namespace Prisma {
       EmailSchedules: Prisma.$EmailSchedulePayload<ExtArgs>[]
       leads: Prisma.$LeadPayload<ExtArgs>[]
       groups: Prisma.$GroupPayload<ExtArgs>[]
+      smtpConfigs: Prisma.$SMTPConfigPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2206,6 +2309,7 @@ export namespace Prisma {
     EmailSchedules<T extends User$EmailSchedulesArgs<ExtArgs> = {}>(args?: Subset<T, User$EmailSchedulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailSchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     leads<T extends User$leadsArgs<ExtArgs> = {}>(args?: Subset<T, User$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     groups<T extends User$groupsArgs<ExtArgs> = {}>(args?: Subset<T, User$groupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    smtpConfigs<T extends User$smtpConfigsArgs<ExtArgs> = {}>(args?: Subset<T, User$smtpConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2748,6 +2852,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: GroupScalarFieldEnum | GroupScalarFieldEnum[]
+  }
+
+  /**
+   * User.smtpConfigs
+   */
+  export type User$smtpConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigInclude<ExtArgs> | null
+    where?: SMTPConfigWhereInput
+    orderBy?: SMTPConfigOrderByWithRelationInput | SMTPConfigOrderByWithRelationInput[]
+    cursor?: SMTPConfigWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SMTPConfigScalarFieldEnum | SMTPConfigScalarFieldEnum[]
   }
 
   /**
@@ -9263,6 +9391,1163 @@ export namespace Prisma {
 
 
   /**
+   * Model SMTPConfig
+   */
+
+  export type AggregateSMTPConfig = {
+    _count: SMTPConfigCountAggregateOutputType | null
+    _avg: SMTPConfigAvgAggregateOutputType | null
+    _sum: SMTPConfigSumAggregateOutputType | null
+    _min: SMTPConfigMinAggregateOutputType | null
+    _max: SMTPConfigMaxAggregateOutputType | null
+  }
+
+  export type SMTPConfigAvgAggregateOutputType = {
+    port: number | null
+  }
+
+  export type SMTPConfigSumAggregateOutputType = {
+    port: number | null
+  }
+
+  export type SMTPConfigMinAggregateOutputType = {
+    id: string | null
+    provider: string | null
+    email: string | null
+    host: string | null
+    port: number | null
+    secure: boolean | null
+    isDefault: boolean | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SMTPConfigMaxAggregateOutputType = {
+    id: string | null
+    provider: string | null
+    email: string | null
+    host: string | null
+    port: number | null
+    secure: boolean | null
+    isDefault: boolean | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SMTPConfigCountAggregateOutputType = {
+    id: number
+    provider: number
+    email: number
+    host: number
+    port: number
+    secure: number
+    isDefault: number
+    userId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SMTPConfigAvgAggregateInputType = {
+    port?: true
+  }
+
+  export type SMTPConfigSumAggregateInputType = {
+    port?: true
+  }
+
+  export type SMTPConfigMinAggregateInputType = {
+    id?: true
+    provider?: true
+    email?: true
+    host?: true
+    port?: true
+    secure?: true
+    isDefault?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SMTPConfigMaxAggregateInputType = {
+    id?: true
+    provider?: true
+    email?: true
+    host?: true
+    port?: true
+    secure?: true
+    isDefault?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SMTPConfigCountAggregateInputType = {
+    id?: true
+    provider?: true
+    email?: true
+    host?: true
+    port?: true
+    secure?: true
+    isDefault?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SMTPConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SMTPConfig to aggregate.
+     */
+    where?: SMTPConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SMTPConfigs to fetch.
+     */
+    orderBy?: SMTPConfigOrderByWithRelationInput | SMTPConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SMTPConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SMTPConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SMTPConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SMTPConfigs
+    **/
+    _count?: true | SMTPConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SMTPConfigAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SMTPConfigSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SMTPConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SMTPConfigMaxAggregateInputType
+  }
+
+  export type GetSMTPConfigAggregateType<T extends SMTPConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregateSMTPConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSMTPConfig[P]>
+      : GetScalarType<T[P], AggregateSMTPConfig[P]>
+  }
+
+
+
+
+  export type SMTPConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SMTPConfigWhereInput
+    orderBy?: SMTPConfigOrderByWithAggregationInput | SMTPConfigOrderByWithAggregationInput[]
+    by: SMTPConfigScalarFieldEnum[] | SMTPConfigScalarFieldEnum
+    having?: SMTPConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SMTPConfigCountAggregateInputType | true
+    _avg?: SMTPConfigAvgAggregateInputType
+    _sum?: SMTPConfigSumAggregateInputType
+    _min?: SMTPConfigMinAggregateInputType
+    _max?: SMTPConfigMaxAggregateInputType
+  }
+
+  export type SMTPConfigGroupByOutputType = {
+    id: string
+    provider: string
+    email: string
+    host: string | null
+    port: number | null
+    secure: boolean
+    isDefault: boolean
+    userId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SMTPConfigCountAggregateOutputType | null
+    _avg: SMTPConfigAvgAggregateOutputType | null
+    _sum: SMTPConfigSumAggregateOutputType | null
+    _min: SMTPConfigMinAggregateOutputType | null
+    _max: SMTPConfigMaxAggregateOutputType | null
+  }
+
+  type GetSMTPConfigGroupByPayload<T extends SMTPConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SMTPConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SMTPConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SMTPConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], SMTPConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SMTPConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    provider?: boolean
+    email?: boolean
+    host?: boolean
+    port?: boolean
+    secure?: boolean
+    isDefault?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sMTPConfig"]>
+
+  export type SMTPConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    provider?: boolean
+    email?: boolean
+    host?: boolean
+    port?: boolean
+    secure?: boolean
+    isDefault?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sMTPConfig"]>
+
+  export type SMTPConfigSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    provider?: boolean
+    email?: boolean
+    host?: boolean
+    port?: boolean
+    secure?: boolean
+    isDefault?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sMTPConfig"]>
+
+  export type SMTPConfigSelectScalar = {
+    id?: boolean
+    provider?: boolean
+    email?: boolean
+    host?: boolean
+    port?: boolean
+    secure?: boolean
+    isDefault?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SMTPConfigOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "provider" | "email" | "host" | "port" | "secure" | "isDefault" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["sMTPConfig"]>
+  export type SMTPConfigInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SMTPConfigIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SMTPConfigIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SMTPConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SMTPConfig"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      provider: string
+      email: string
+      host: string | null
+      port: number | null
+      secure: boolean
+      isDefault: boolean
+      userId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["sMTPConfig"]>
+    composites: {}
+  }
+
+  type SMTPConfigGetPayload<S extends boolean | null | undefined | SMTPConfigDefaultArgs> = $Result.GetResult<Prisma.$SMTPConfigPayload, S>
+
+  type SMTPConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SMTPConfigFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SMTPConfigCountAggregateInputType | true
+    }
+
+  export interface SMTPConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SMTPConfig'], meta: { name: 'SMTPConfig' } }
+    /**
+     * Find zero or one SMTPConfig that matches the filter.
+     * @param {SMTPConfigFindUniqueArgs} args - Arguments to find a SMTPConfig
+     * @example
+     * // Get one SMTPConfig
+     * const sMTPConfig = await prisma.sMTPConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SMTPConfigFindUniqueArgs>(args: SelectSubset<T, SMTPConfigFindUniqueArgs<ExtArgs>>): Prisma__SMTPConfigClient<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SMTPConfig that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SMTPConfigFindUniqueOrThrowArgs} args - Arguments to find a SMTPConfig
+     * @example
+     * // Get one SMTPConfig
+     * const sMTPConfig = await prisma.sMTPConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SMTPConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, SMTPConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SMTPConfigClient<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SMTPConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SMTPConfigFindFirstArgs} args - Arguments to find a SMTPConfig
+     * @example
+     * // Get one SMTPConfig
+     * const sMTPConfig = await prisma.sMTPConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SMTPConfigFindFirstArgs>(args?: SelectSubset<T, SMTPConfigFindFirstArgs<ExtArgs>>): Prisma__SMTPConfigClient<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SMTPConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SMTPConfigFindFirstOrThrowArgs} args - Arguments to find a SMTPConfig
+     * @example
+     * // Get one SMTPConfig
+     * const sMTPConfig = await prisma.sMTPConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SMTPConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, SMTPConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__SMTPConfigClient<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SMTPConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SMTPConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SMTPConfigs
+     * const sMTPConfigs = await prisma.sMTPConfig.findMany()
+     * 
+     * // Get first 10 SMTPConfigs
+     * const sMTPConfigs = await prisma.sMTPConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sMTPConfigWithIdOnly = await prisma.sMTPConfig.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SMTPConfigFindManyArgs>(args?: SelectSubset<T, SMTPConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SMTPConfig.
+     * @param {SMTPConfigCreateArgs} args - Arguments to create a SMTPConfig.
+     * @example
+     * // Create one SMTPConfig
+     * const SMTPConfig = await prisma.sMTPConfig.create({
+     *   data: {
+     *     // ... data to create a SMTPConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends SMTPConfigCreateArgs>(args: SelectSubset<T, SMTPConfigCreateArgs<ExtArgs>>): Prisma__SMTPConfigClient<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SMTPConfigs.
+     * @param {SMTPConfigCreateManyArgs} args - Arguments to create many SMTPConfigs.
+     * @example
+     * // Create many SMTPConfigs
+     * const sMTPConfig = await prisma.sMTPConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SMTPConfigCreateManyArgs>(args?: SelectSubset<T, SMTPConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SMTPConfigs and returns the data saved in the database.
+     * @param {SMTPConfigCreateManyAndReturnArgs} args - Arguments to create many SMTPConfigs.
+     * @example
+     * // Create many SMTPConfigs
+     * const sMTPConfig = await prisma.sMTPConfig.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SMTPConfigs and only return the `id`
+     * const sMTPConfigWithIdOnly = await prisma.sMTPConfig.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SMTPConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, SMTPConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SMTPConfig.
+     * @param {SMTPConfigDeleteArgs} args - Arguments to delete one SMTPConfig.
+     * @example
+     * // Delete one SMTPConfig
+     * const SMTPConfig = await prisma.sMTPConfig.delete({
+     *   where: {
+     *     // ... filter to delete one SMTPConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SMTPConfigDeleteArgs>(args: SelectSubset<T, SMTPConfigDeleteArgs<ExtArgs>>): Prisma__SMTPConfigClient<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SMTPConfig.
+     * @param {SMTPConfigUpdateArgs} args - Arguments to update one SMTPConfig.
+     * @example
+     * // Update one SMTPConfig
+     * const sMTPConfig = await prisma.sMTPConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SMTPConfigUpdateArgs>(args: SelectSubset<T, SMTPConfigUpdateArgs<ExtArgs>>): Prisma__SMTPConfigClient<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SMTPConfigs.
+     * @param {SMTPConfigDeleteManyArgs} args - Arguments to filter SMTPConfigs to delete.
+     * @example
+     * // Delete a few SMTPConfigs
+     * const { count } = await prisma.sMTPConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SMTPConfigDeleteManyArgs>(args?: SelectSubset<T, SMTPConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SMTPConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SMTPConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SMTPConfigs
+     * const sMTPConfig = await prisma.sMTPConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SMTPConfigUpdateManyArgs>(args: SelectSubset<T, SMTPConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SMTPConfigs and returns the data updated in the database.
+     * @param {SMTPConfigUpdateManyAndReturnArgs} args - Arguments to update many SMTPConfigs.
+     * @example
+     * // Update many SMTPConfigs
+     * const sMTPConfig = await prisma.sMTPConfig.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SMTPConfigs and only return the `id`
+     * const sMTPConfigWithIdOnly = await prisma.sMTPConfig.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SMTPConfigUpdateManyAndReturnArgs>(args: SelectSubset<T, SMTPConfigUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SMTPConfig.
+     * @param {SMTPConfigUpsertArgs} args - Arguments to update or create a SMTPConfig.
+     * @example
+     * // Update or create a SMTPConfig
+     * const sMTPConfig = await prisma.sMTPConfig.upsert({
+     *   create: {
+     *     // ... data to create a SMTPConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SMTPConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SMTPConfigUpsertArgs>(args: SelectSubset<T, SMTPConfigUpsertArgs<ExtArgs>>): Prisma__SMTPConfigClient<$Result.GetResult<Prisma.$SMTPConfigPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SMTPConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SMTPConfigCountArgs} args - Arguments to filter SMTPConfigs to count.
+     * @example
+     * // Count the number of SMTPConfigs
+     * const count = await prisma.sMTPConfig.count({
+     *   where: {
+     *     // ... the filter for the SMTPConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends SMTPConfigCountArgs>(
+      args?: Subset<T, SMTPConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SMTPConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SMTPConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SMTPConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SMTPConfigAggregateArgs>(args: Subset<T, SMTPConfigAggregateArgs>): Prisma.PrismaPromise<GetSMTPConfigAggregateType<T>>
+
+    /**
+     * Group by SMTPConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SMTPConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SMTPConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SMTPConfigGroupByArgs['orderBy'] }
+        : { orderBy?: SMTPConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SMTPConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSMTPConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SMTPConfig model
+   */
+  readonly fields: SMTPConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SMTPConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SMTPConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SMTPConfig model
+   */
+  interface SMTPConfigFieldRefs {
+    readonly id: FieldRef<"SMTPConfig", 'String'>
+    readonly provider: FieldRef<"SMTPConfig", 'String'>
+    readonly email: FieldRef<"SMTPConfig", 'String'>
+    readonly host: FieldRef<"SMTPConfig", 'String'>
+    readonly port: FieldRef<"SMTPConfig", 'Int'>
+    readonly secure: FieldRef<"SMTPConfig", 'Boolean'>
+    readonly isDefault: FieldRef<"SMTPConfig", 'Boolean'>
+    readonly userId: FieldRef<"SMTPConfig", 'String'>
+    readonly createdAt: FieldRef<"SMTPConfig", 'DateTime'>
+    readonly updatedAt: FieldRef<"SMTPConfig", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SMTPConfig findUnique
+   */
+  export type SMTPConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which SMTPConfig to fetch.
+     */
+    where: SMTPConfigWhereUniqueInput
+  }
+
+  /**
+   * SMTPConfig findUniqueOrThrow
+   */
+  export type SMTPConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which SMTPConfig to fetch.
+     */
+    where: SMTPConfigWhereUniqueInput
+  }
+
+  /**
+   * SMTPConfig findFirst
+   */
+  export type SMTPConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which SMTPConfig to fetch.
+     */
+    where?: SMTPConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SMTPConfigs to fetch.
+     */
+    orderBy?: SMTPConfigOrderByWithRelationInput | SMTPConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SMTPConfigs.
+     */
+    cursor?: SMTPConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SMTPConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SMTPConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SMTPConfigs.
+     */
+    distinct?: SMTPConfigScalarFieldEnum | SMTPConfigScalarFieldEnum[]
+  }
+
+  /**
+   * SMTPConfig findFirstOrThrow
+   */
+  export type SMTPConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which SMTPConfig to fetch.
+     */
+    where?: SMTPConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SMTPConfigs to fetch.
+     */
+    orderBy?: SMTPConfigOrderByWithRelationInput | SMTPConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SMTPConfigs.
+     */
+    cursor?: SMTPConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SMTPConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SMTPConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SMTPConfigs.
+     */
+    distinct?: SMTPConfigScalarFieldEnum | SMTPConfigScalarFieldEnum[]
+  }
+
+  /**
+   * SMTPConfig findMany
+   */
+  export type SMTPConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigInclude<ExtArgs> | null
+    /**
+     * Filter, which SMTPConfigs to fetch.
+     */
+    where?: SMTPConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SMTPConfigs to fetch.
+     */
+    orderBy?: SMTPConfigOrderByWithRelationInput | SMTPConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SMTPConfigs.
+     */
+    cursor?: SMTPConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SMTPConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SMTPConfigs.
+     */
+    skip?: number
+    distinct?: SMTPConfigScalarFieldEnum | SMTPConfigScalarFieldEnum[]
+  }
+
+  /**
+   * SMTPConfig create
+   */
+  export type SMTPConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SMTPConfig.
+     */
+    data: XOR<SMTPConfigCreateInput, SMTPConfigUncheckedCreateInput>
+  }
+
+  /**
+   * SMTPConfig createMany
+   */
+  export type SMTPConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SMTPConfigs.
+     */
+    data: SMTPConfigCreateManyInput | SMTPConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SMTPConfig createManyAndReturn
+   */
+  export type SMTPConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * The data used to create many SMTPConfigs.
+     */
+    data: SMTPConfigCreateManyInput | SMTPConfigCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SMTPConfig update
+   */
+  export type SMTPConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SMTPConfig.
+     */
+    data: XOR<SMTPConfigUpdateInput, SMTPConfigUncheckedUpdateInput>
+    /**
+     * Choose, which SMTPConfig to update.
+     */
+    where: SMTPConfigWhereUniqueInput
+  }
+
+  /**
+   * SMTPConfig updateMany
+   */
+  export type SMTPConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SMTPConfigs.
+     */
+    data: XOR<SMTPConfigUpdateManyMutationInput, SMTPConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which SMTPConfigs to update
+     */
+    where?: SMTPConfigWhereInput
+    /**
+     * Limit how many SMTPConfigs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SMTPConfig updateManyAndReturn
+   */
+  export type SMTPConfigUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * The data used to update SMTPConfigs.
+     */
+    data: XOR<SMTPConfigUpdateManyMutationInput, SMTPConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which SMTPConfigs to update
+     */
+    where?: SMTPConfigWhereInput
+    /**
+     * Limit how many SMTPConfigs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SMTPConfig upsert
+   */
+  export type SMTPConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SMTPConfig to update in case it exists.
+     */
+    where: SMTPConfigWhereUniqueInput
+    /**
+     * In case the SMTPConfig found by the `where` argument doesn't exist, create a new SMTPConfig with this data.
+     */
+    create: XOR<SMTPConfigCreateInput, SMTPConfigUncheckedCreateInput>
+    /**
+     * In case the SMTPConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SMTPConfigUpdateInput, SMTPConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * SMTPConfig delete
+   */
+  export type SMTPConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigInclude<ExtArgs> | null
+    /**
+     * Filter which SMTPConfig to delete.
+     */
+    where: SMTPConfigWhereUniqueInput
+  }
+
+  /**
+   * SMTPConfig deleteMany
+   */
+  export type SMTPConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SMTPConfigs to delete
+     */
+    where?: SMTPConfigWhereInput
+    /**
+     * Limit how many SMTPConfigs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SMTPConfig without action
+   */
+  export type SMTPConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SMTPConfig
+     */
+    select?: SMTPConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SMTPConfig
+     */
+    omit?: SMTPConfigOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SMTPConfigInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9365,6 +10650,22 @@ export namespace Prisma {
   export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
 
 
+  export const SMTPConfigScalarFieldEnum: {
+    id: 'id',
+    provider: 'provider',
+    email: 'email',
+    host: 'host',
+    port: 'port',
+    secure: 'secure',
+    isDefault: 'isDefault',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SMTPConfigScalarFieldEnum = (typeof SMTPConfigScalarFieldEnum)[keyof typeof SMTPConfigScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -9465,6 +10766,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -9498,6 +10806,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleListRelationFilter
     leads?: LeadListRelationFilter
     groups?: GroupListRelationFilter
+    smtpConfigs?: SMTPConfigListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9514,6 +10823,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleOrderByRelationAggregateInput
     leads?: LeadOrderByRelationAggregateInput
     groups?: GroupOrderByRelationAggregateInput
+    smtpConfigs?: SMTPConfigOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -9533,6 +10843,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleListRelationFilter
     leads?: LeadListRelationFilter
     groups?: GroupListRelationFilter
+    smtpConfigs?: SMTPConfigListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -9946,6 +11257,89 @@ export namespace Prisma {
     expires?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
   }
 
+  export type SMTPConfigWhereInput = {
+    AND?: SMTPConfigWhereInput | SMTPConfigWhereInput[]
+    OR?: SMTPConfigWhereInput[]
+    NOT?: SMTPConfigWhereInput | SMTPConfigWhereInput[]
+    id?: StringFilter<"SMTPConfig"> | string
+    provider?: StringFilter<"SMTPConfig"> | string
+    email?: StringFilter<"SMTPConfig"> | string
+    host?: StringNullableFilter<"SMTPConfig"> | string | null
+    port?: IntNullableFilter<"SMTPConfig"> | number | null
+    secure?: BoolFilter<"SMTPConfig"> | boolean
+    isDefault?: BoolFilter<"SMTPConfig"> | boolean
+    userId?: StringFilter<"SMTPConfig"> | string
+    createdAt?: DateTimeFilter<"SMTPConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"SMTPConfig"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type SMTPConfigOrderByWithRelationInput = {
+    id?: SortOrder
+    provider?: SortOrder
+    email?: SortOrder
+    host?: SortOrderInput | SortOrder
+    port?: SortOrderInput | SortOrder
+    secure?: SortOrder
+    isDefault?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SMTPConfigWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    email_userId?: SMTPConfigEmailUserIdCompoundUniqueInput
+    AND?: SMTPConfigWhereInput | SMTPConfigWhereInput[]
+    OR?: SMTPConfigWhereInput[]
+    NOT?: SMTPConfigWhereInput | SMTPConfigWhereInput[]
+    provider?: StringFilter<"SMTPConfig"> | string
+    email?: StringFilter<"SMTPConfig"> | string
+    host?: StringNullableFilter<"SMTPConfig"> | string | null
+    port?: IntNullableFilter<"SMTPConfig"> | number | null
+    secure?: BoolFilter<"SMTPConfig"> | boolean
+    isDefault?: BoolFilter<"SMTPConfig"> | boolean
+    userId?: StringFilter<"SMTPConfig"> | string
+    createdAt?: DateTimeFilter<"SMTPConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"SMTPConfig"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "email_userId">
+
+  export type SMTPConfigOrderByWithAggregationInput = {
+    id?: SortOrder
+    provider?: SortOrder
+    email?: SortOrder
+    host?: SortOrderInput | SortOrder
+    port?: SortOrderInput | SortOrder
+    secure?: SortOrder
+    isDefault?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SMTPConfigCountOrderByAggregateInput
+    _avg?: SMTPConfigAvgOrderByAggregateInput
+    _max?: SMTPConfigMaxOrderByAggregateInput
+    _min?: SMTPConfigMinOrderByAggregateInput
+    _sum?: SMTPConfigSumOrderByAggregateInput
+  }
+
+  export type SMTPConfigScalarWhereWithAggregatesInput = {
+    AND?: SMTPConfigScalarWhereWithAggregatesInput | SMTPConfigScalarWhereWithAggregatesInput[]
+    OR?: SMTPConfigScalarWhereWithAggregatesInput[]
+    NOT?: SMTPConfigScalarWhereWithAggregatesInput | SMTPConfigScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SMTPConfig"> | string
+    provider?: StringWithAggregatesFilter<"SMTPConfig"> | string
+    email?: StringWithAggregatesFilter<"SMTPConfig"> | string
+    host?: StringNullableWithAggregatesFilter<"SMTPConfig"> | string | null
+    port?: IntNullableWithAggregatesFilter<"SMTPConfig"> | number | null
+    secure?: BoolWithAggregatesFilter<"SMTPConfig"> | boolean
+    isDefault?: BoolWithAggregatesFilter<"SMTPConfig"> | boolean
+    userId?: StringWithAggregatesFilter<"SMTPConfig"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SMTPConfig"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SMTPConfig"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name?: string | null
@@ -9960,6 +11354,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleCreateNestedManyWithoutUserInput
     leads?: LeadCreateNestedManyWithoutUserInput
     groups?: GroupCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -9976,6 +11371,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleUncheckedCreateNestedManyWithoutUserInput
     leads?: LeadUncheckedCreateNestedManyWithoutUserInput
     groups?: GroupUncheckedCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -9992,6 +11388,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleUpdateManyWithoutUserNestedInput
     leads?: LeadUpdateManyWithoutUserNestedInput
     groups?: GroupUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -10008,6 +11405,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleUncheckedUpdateManyWithoutUserNestedInput
     leads?: LeadUncheckedUpdateManyWithoutUserNestedInput
     groups?: GroupUncheckedUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10440,6 +11838,96 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SMTPConfigCreateInput = {
+    id?: string
+    provider: string
+    email: string
+    host?: string | null
+    port?: number | null
+    secure?: boolean
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutSmtpConfigsInput
+  }
+
+  export type SMTPConfigUncheckedCreateInput = {
+    id?: string
+    provider: string
+    email: string
+    host?: string | null
+    port?: number | null
+    secure?: boolean
+    isDefault?: boolean
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SMTPConfigUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    port?: NullableIntFieldUpdateOperationsInput | number | null
+    secure?: BoolFieldUpdateOperationsInput | boolean
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSmtpConfigsNestedInput
+  }
+
+  export type SMTPConfigUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    port?: NullableIntFieldUpdateOperationsInput | number | null
+    secure?: BoolFieldUpdateOperationsInput | boolean
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SMTPConfigCreateManyInput = {
+    id?: string
+    provider: string
+    email: string
+    host?: string | null
+    port?: number | null
+    secure?: boolean
+    isDefault?: boolean
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SMTPConfigUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    port?: NullableIntFieldUpdateOperationsInput | number | null
+    secure?: BoolFieldUpdateOperationsInput | boolean
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SMTPConfigUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    port?: NullableIntFieldUpdateOperationsInput | number | null
+    secure?: BoolFieldUpdateOperationsInput | boolean
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -10522,6 +12010,12 @@ export namespace Prisma {
     none?: GroupWhereInput
   }
 
+  export type SMTPConfigListRelationFilter = {
+    every?: SMTPConfigWhereInput
+    some?: SMTPConfigWhereInput
+    none?: SMTPConfigWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -10544,6 +12038,10 @@ export namespace Prisma {
   }
 
   export type GroupOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SMTPConfigOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10909,6 +12407,71 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type SMTPConfigEmailUserIdCompoundUniqueInput = {
+    email: string
+    userId: string
+  }
+
+  export type SMTPConfigCountOrderByAggregateInput = {
+    id?: SortOrder
+    provider?: SortOrder
+    email?: SortOrder
+    host?: SortOrder
+    port?: SortOrder
+    secure?: SortOrder
+    isDefault?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SMTPConfigAvgOrderByAggregateInput = {
+    port?: SortOrder
+  }
+
+  export type SMTPConfigMaxOrderByAggregateInput = {
+    id?: SortOrder
+    provider?: SortOrder
+    email?: SortOrder
+    host?: SortOrder
+    port?: SortOrder
+    secure?: SortOrder
+    isDefault?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SMTPConfigMinOrderByAggregateInput = {
+    id?: SortOrder
+    provider?: SortOrder
+    email?: SortOrder
+    host?: SortOrder
+    port?: SortOrder
+    secure?: SortOrder
+    isDefault?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SMTPConfigSumOrderByAggregateInput = {
+    port?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type AccountCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -10944,6 +12507,13 @@ export namespace Prisma {
     connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
   }
 
+  export type SMTPConfigCreateNestedManyWithoutUserInput = {
+    create?: XOR<SMTPConfigCreateWithoutUserInput, SMTPConfigUncheckedCreateWithoutUserInput> | SMTPConfigCreateWithoutUserInput[] | SMTPConfigUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SMTPConfigCreateOrConnectWithoutUserInput | SMTPConfigCreateOrConnectWithoutUserInput[]
+    createMany?: SMTPConfigCreateManyUserInputEnvelope
+    connect?: SMTPConfigWhereUniqueInput | SMTPConfigWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -10977,6 +12547,13 @@ export namespace Prisma {
     connectOrCreate?: GroupCreateOrConnectWithoutUserInput | GroupCreateOrConnectWithoutUserInput[]
     createMany?: GroupCreateManyUserInputEnvelope
     connect?: GroupWhereUniqueInput | GroupWhereUniqueInput[]
+  }
+
+  export type SMTPConfigUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SMTPConfigCreateWithoutUserInput, SMTPConfigUncheckedCreateWithoutUserInput> | SMTPConfigCreateWithoutUserInput[] | SMTPConfigUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SMTPConfigCreateOrConnectWithoutUserInput | SMTPConfigCreateOrConnectWithoutUserInput[]
+    createMany?: SMTPConfigCreateManyUserInputEnvelope
+    connect?: SMTPConfigWhereUniqueInput | SMTPConfigWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -11065,6 +12642,20 @@ export namespace Prisma {
     deleteMany?: GroupScalarWhereInput | GroupScalarWhereInput[]
   }
 
+  export type SMTPConfigUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SMTPConfigCreateWithoutUserInput, SMTPConfigUncheckedCreateWithoutUserInput> | SMTPConfigCreateWithoutUserInput[] | SMTPConfigUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SMTPConfigCreateOrConnectWithoutUserInput | SMTPConfigCreateOrConnectWithoutUserInput[]
+    upsert?: SMTPConfigUpsertWithWhereUniqueWithoutUserInput | SMTPConfigUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SMTPConfigCreateManyUserInputEnvelope
+    set?: SMTPConfigWhereUniqueInput | SMTPConfigWhereUniqueInput[]
+    disconnect?: SMTPConfigWhereUniqueInput | SMTPConfigWhereUniqueInput[]
+    delete?: SMTPConfigWhereUniqueInput | SMTPConfigWhereUniqueInput[]
+    connect?: SMTPConfigWhereUniqueInput | SMTPConfigWhereUniqueInput[]
+    update?: SMTPConfigUpdateWithWhereUniqueWithoutUserInput | SMTPConfigUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SMTPConfigUpdateManyWithWhereWithoutUserInput | SMTPConfigUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SMTPConfigScalarWhereInput | SMTPConfigScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -11133,6 +12724,20 @@ export namespace Prisma {
     update?: GroupUpdateWithWhereUniqueWithoutUserInput | GroupUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: GroupUpdateManyWithWhereWithoutUserInput | GroupUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: GroupScalarWhereInput | GroupScalarWhereInput[]
+  }
+
+  export type SMTPConfigUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SMTPConfigCreateWithoutUserInput, SMTPConfigUncheckedCreateWithoutUserInput> | SMTPConfigCreateWithoutUserInput[] | SMTPConfigUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SMTPConfigCreateOrConnectWithoutUserInput | SMTPConfigCreateOrConnectWithoutUserInput[]
+    upsert?: SMTPConfigUpsertWithWhereUniqueWithoutUserInput | SMTPConfigUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SMTPConfigCreateManyUserInputEnvelope
+    set?: SMTPConfigWhereUniqueInput | SMTPConfigWhereUniqueInput[]
+    disconnect?: SMTPConfigWhereUniqueInput | SMTPConfigWhereUniqueInput[]
+    delete?: SMTPConfigWhereUniqueInput | SMTPConfigWhereUniqueInput[]
+    connect?: SMTPConfigWhereUniqueInput | SMTPConfigWhereUniqueInput[]
+    update?: SMTPConfigUpdateWithWhereUniqueWithoutUserInput | SMTPConfigUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SMTPConfigUpdateManyWithWhereWithoutUserInput | SMTPConfigUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SMTPConfigScalarWhereInput | SMTPConfigScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutEmailSchedulesInput = {
@@ -11277,6 +12882,24 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSessionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutSmtpConfigsInput = {
+    create?: XOR<UserCreateWithoutSmtpConfigsInput, UserUncheckedCreateWithoutSmtpConfigsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSmtpConfigsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type UserUpdateOneRequiredWithoutSmtpConfigsNestedInput = {
+    create?: XOR<UserCreateWithoutSmtpConfigsInput, UserUncheckedCreateWithoutSmtpConfigsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSmtpConfigsInput
+    upsert?: UserUpsertWithoutSmtpConfigsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSmtpConfigsInput, UserUpdateWithoutSmtpConfigsInput>, UserUncheckedUpdateWithoutSmtpConfigsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11474,6 +13097,19 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type AccountCreateWithoutUserInput = {
     type: string
     provider: string
@@ -11615,6 +13251,40 @@ export namespace Prisma {
 
   export type GroupCreateManyUserInputEnvelope = {
     data: GroupCreateManyUserInput | GroupCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SMTPConfigCreateWithoutUserInput = {
+    id?: string
+    provider: string
+    email: string
+    host?: string | null
+    port?: number | null
+    secure?: boolean
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SMTPConfigUncheckedCreateWithoutUserInput = {
+    id?: string
+    provider: string
+    email: string
+    host?: string | null
+    port?: number | null
+    secure?: boolean
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SMTPConfigCreateOrConnectWithoutUserInput = {
+    where: SMTPConfigWhereUniqueInput
+    create: XOR<SMTPConfigCreateWithoutUserInput, SMTPConfigUncheckedCreateWithoutUserInput>
+  }
+
+  export type SMTPConfigCreateManyUserInputEnvelope = {
+    data: SMTPConfigCreateManyUserInput | SMTPConfigCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -11764,6 +13434,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Group"> | Date | string
   }
 
+  export type SMTPConfigUpsertWithWhereUniqueWithoutUserInput = {
+    where: SMTPConfigWhereUniqueInput
+    update: XOR<SMTPConfigUpdateWithoutUserInput, SMTPConfigUncheckedUpdateWithoutUserInput>
+    create: XOR<SMTPConfigCreateWithoutUserInput, SMTPConfigUncheckedCreateWithoutUserInput>
+  }
+
+  export type SMTPConfigUpdateWithWhereUniqueWithoutUserInput = {
+    where: SMTPConfigWhereUniqueInput
+    data: XOR<SMTPConfigUpdateWithoutUserInput, SMTPConfigUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SMTPConfigUpdateManyWithWhereWithoutUserInput = {
+    where: SMTPConfigScalarWhereInput
+    data: XOR<SMTPConfigUpdateManyMutationInput, SMTPConfigUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SMTPConfigScalarWhereInput = {
+    AND?: SMTPConfigScalarWhereInput | SMTPConfigScalarWhereInput[]
+    OR?: SMTPConfigScalarWhereInput[]
+    NOT?: SMTPConfigScalarWhereInput | SMTPConfigScalarWhereInput[]
+    id?: StringFilter<"SMTPConfig"> | string
+    provider?: StringFilter<"SMTPConfig"> | string
+    email?: StringFilter<"SMTPConfig"> | string
+    host?: StringNullableFilter<"SMTPConfig"> | string | null
+    port?: IntNullableFilter<"SMTPConfig"> | number | null
+    secure?: BoolFilter<"SMTPConfig"> | boolean
+    isDefault?: BoolFilter<"SMTPConfig"> | boolean
+    userId?: StringFilter<"SMTPConfig"> | string
+    createdAt?: DateTimeFilter<"SMTPConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"SMTPConfig"> | Date | string
+  }
+
   export type UserCreateWithoutEmailSchedulesInput = {
     id?: string
     name?: string | null
@@ -11777,6 +13479,7 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     leads?: LeadCreateNestedManyWithoutUserInput
     groups?: GroupCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEmailSchedulesInput = {
@@ -11792,6 +13495,7 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     leads?: LeadUncheckedCreateNestedManyWithoutUserInput
     groups?: GroupUncheckedCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEmailSchedulesInput = {
@@ -11823,6 +13527,7 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     leads?: LeadUpdateManyWithoutUserNestedInput
     groups?: GroupUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmailSchedulesInput = {
@@ -11838,6 +13543,7 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     leads?: LeadUncheckedUpdateManyWithoutUserNestedInput
     groups?: GroupUncheckedUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutGroupsInput = {
@@ -11853,6 +13559,7 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     EmailSchedules?: EmailScheduleCreateNestedManyWithoutUserInput
     leads?: LeadCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupsInput = {
@@ -11868,6 +13575,7 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     EmailSchedules?: EmailScheduleUncheckedCreateNestedManyWithoutUserInput
     leads?: LeadUncheckedCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupsInput = {
@@ -11931,6 +13639,7 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     EmailSchedules?: EmailScheduleUpdateManyWithoutUserNestedInput
     leads?: LeadUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupsInput = {
@@ -11946,6 +13655,7 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     EmailSchedules?: EmailScheduleUncheckedUpdateManyWithoutUserNestedInput
     leads?: LeadUncheckedUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutGroupInput = {
@@ -11977,6 +13687,7 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     EmailSchedules?: EmailScheduleCreateNestedManyWithoutUserInput
     groups?: GroupCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLeadsInput = {
@@ -11992,6 +13703,7 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     EmailSchedules?: EmailScheduleUncheckedCreateNestedManyWithoutUserInput
     groups?: GroupUncheckedCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLeadsInput = {
@@ -12044,6 +13756,7 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     EmailSchedules?: EmailScheduleUpdateManyWithoutUserNestedInput
     groups?: GroupUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLeadsInput = {
@@ -12059,6 +13772,7 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     EmailSchedules?: EmailScheduleUncheckedUpdateManyWithoutUserNestedInput
     groups?: GroupUncheckedUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupUpsertWithoutLeadsInput = {
@@ -12101,6 +13815,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleCreateNestedManyWithoutUserInput
     leads?: LeadCreateNestedManyWithoutUserInput
     groups?: GroupCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -12116,6 +13831,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleUncheckedCreateNestedManyWithoutUserInput
     leads?: LeadUncheckedCreateNestedManyWithoutUserInput
     groups?: GroupUncheckedCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -12147,6 +13863,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleUpdateManyWithoutUserNestedInput
     leads?: LeadUpdateManyWithoutUserNestedInput
     groups?: GroupUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -12162,6 +13879,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleUncheckedUpdateManyWithoutUserNestedInput
     leads?: LeadUncheckedUpdateManyWithoutUserNestedInput
     groups?: GroupUncheckedUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -12177,6 +13895,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleCreateNestedManyWithoutUserInput
     leads?: LeadCreateNestedManyWithoutUserInput
     groups?: GroupCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -12192,6 +13911,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleUncheckedCreateNestedManyWithoutUserInput
     leads?: LeadUncheckedCreateNestedManyWithoutUserInput
     groups?: GroupUncheckedCreateNestedManyWithoutUserInput
+    smtpConfigs?: SMTPConfigUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -12223,6 +13943,7 @@ export namespace Prisma {
     EmailSchedules?: EmailScheduleUpdateManyWithoutUserNestedInput
     leads?: LeadUpdateManyWithoutUserNestedInput
     groups?: GroupUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -12235,6 +13956,87 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    EmailSchedules?: EmailScheduleUncheckedUpdateManyWithoutUserNestedInput
+    leads?: LeadUncheckedUpdateManyWithoutUserNestedInput
+    groups?: GroupUncheckedUpdateManyWithoutUserNestedInput
+    smtpConfigs?: SMTPConfigUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutSmtpConfigsInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    passwordHash?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    EmailSchedules?: EmailScheduleCreateNestedManyWithoutUserInput
+    leads?: LeadCreateNestedManyWithoutUserInput
+    groups?: GroupCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSmtpConfigsInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    passwordHash?: string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    EmailSchedules?: EmailScheduleUncheckedCreateNestedManyWithoutUserInput
+    leads?: LeadUncheckedCreateNestedManyWithoutUserInput
+    groups?: GroupUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSmtpConfigsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSmtpConfigsInput, UserUncheckedCreateWithoutSmtpConfigsInput>
+  }
+
+  export type UserUpsertWithoutSmtpConfigsInput = {
+    update: XOR<UserUpdateWithoutSmtpConfigsInput, UserUncheckedUpdateWithoutSmtpConfigsInput>
+    create: XOR<UserCreateWithoutSmtpConfigsInput, UserUncheckedCreateWithoutSmtpConfigsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSmtpConfigsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSmtpConfigsInput, UserUncheckedUpdateWithoutSmtpConfigsInput>
+  }
+
+  export type UserUpdateWithoutSmtpConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    EmailSchedules?: EmailScheduleUpdateManyWithoutUserNestedInput
+    leads?: LeadUpdateManyWithoutUserNestedInput
+    groups?: GroupUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSmtpConfigsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     EmailSchedules?: EmailScheduleUncheckedUpdateManyWithoutUserNestedInput
     leads?: LeadUncheckedUpdateManyWithoutUserNestedInput
     groups?: GroupUncheckedUpdateManyWithoutUserNestedInput
@@ -12282,6 +14084,18 @@ export namespace Prisma {
   export type GroupCreateManyUserInput = {
     id?: string
     name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SMTPConfigCreateManyUserInput = {
+    id?: string
+    provider: string
+    email: string
+    host?: string | null
+    port?: number | null
+    secure?: boolean
+    isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12422,6 +14236,42 @@ export namespace Prisma {
   export type GroupUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SMTPConfigUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    port?: NullableIntFieldUpdateOperationsInput | number | null
+    secure?: BoolFieldUpdateOperationsInput | boolean
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SMTPConfigUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    port?: NullableIntFieldUpdateOperationsInput | number | null
+    secure?: BoolFieldUpdateOperationsInput | boolean
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SMTPConfigUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    port?: NullableIntFieldUpdateOperationsInput | number | null
+    secure?: BoolFieldUpdateOperationsInput | boolean
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

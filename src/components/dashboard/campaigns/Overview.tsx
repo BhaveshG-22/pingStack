@@ -43,31 +43,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { toast } from "sonner"
-
-// Define campaign status type
-type CampaignStatus = 'active' | 'paused' | 'completed' | 'draft'
-
-// Define campaign type
-interface Campaign {
-  id: string
-  name: string
-  status: CampaignStatus
-  sent: number
-  delivered: number
-  responded: number
-  interviews?: number
-  positive?: number
-  prospects: number
-  responseRate: number
-  positiveRate?: number
-  interviewRate?: number
-  opened?: number
-  clicked?: number
-  openRate?: number
-  clickRate?: number
-  createdAt: string
-  lastActivity: string
-}
+import type { Campaign, CampaignStatus, CampaignOverviewProps } from "../../../../types/campaigns"
 
 // Mock campaign data
 const mockCampaigns: Campaign[] = [
@@ -151,9 +127,6 @@ const statusIcons = {
   draft: Edit
 }
 
-interface CampaignOverviewProps {
-  onViewCampaign?: (campaignId: string) => void
-}
 
 const CampaignOverview: React.FC<CampaignOverviewProps> = ({ onViewCampaign }) => {
   const [searchTerm, setSearchTerm] = useState("")

@@ -25,6 +25,7 @@ model User {
   EmailSchedules EmailSchedule[]
   leads          Lead[]
   groups         Group[]
+  smtpConfigs    SMTPConfig[]
 }
 
 model EmailSchedule {
@@ -115,4 +116,20 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model SMTPConfig {
+  id        String   @id @default(cuid())
+  provider  String // 'gmail', 'outlook', 'custom'
+  email     String
+  host      String?
+  port      Int?
+  secure    Boolean  @default(true)
+  isDefault Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([email, userId]) // One config per email per user
 }
